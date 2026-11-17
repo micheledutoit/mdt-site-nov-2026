@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Michèle du Toit</title>
+<meta name="description" content="Projects by Michèle du Toit.">
+<link rel="stylesheet" href="/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo" aria-label="Michèle du Toit, home">M.</a>
+  <nav>
+    <a href="/projects/" aria-current="page">projects</a>
+    <a href="/contact/">contact</a>
+  </nav>
+</header>
+
+<main class="top">
+
+  <div class="projects-layout">
+    <ul class="projects">
+
+    <li class="project" id="kairoverse">
+      <button type="button" class="project-btn" aria-expanded="false">
+        <span class="year">2026</span>
+        <span class="text"><span class="title">kairoverse</span><span class="summary">There's so much more to a person than what fits on their resumé.</span></span>
+      </button>
+      <div class="detail">
+        <div class="detail-body">
+          <p>I've always been interested in what makes people who they are. How they think, what they care about, what they dream about and what they're capable of. 
+            Kairoverse is an exploration of all the things that make a person a person, including the bits that don't fit neatly into a LinkedIn profile.</p>
+          <p>I'm building this project as part of the Ship or Die Hackathon. You can read my founder's diary below for progress updates during the first 30 days.</p>
+          <dl>
+            <dt>Website</dt><dd><a href="https://kairoverse.com" target="_blank" rel="noopener noreferrer">kairoverse.com</a></dd>
+            <dt>Devlog</dt><dd><a href="/kairoverse/founders-diary/">Founder's Diary</a></dd>
+          </dl>
+        </div>
+      </div>
+    </li>
+
+    <li class="project" id="the-systems-brain">
+      <button type="button" class="project-btn" aria-expanded="false">
+        <span class="year">2026</span>
+        <span class="text"><span class="title">the systems brain</span><span class="summary">Optimizing the business systems that make the world work.</span></span>
+      </button>
+      <div class="detail">
+        <div class="detail-body">
+          <p>Better businesses are built by design. 
+            I work directly with founders to optimize their systems, processes and operations.</p>
+          <dl>
+            <dt>Website </dt><dd><a href="https://thesystemsbrain.com" target="_blank" rel="noopener noreferrer">thesystemsbrain.com</a></dd>
+          </dl>
+        </div>
+      </div>
+    </li>
+
+    </ul>
+    <aside class="pane" id="pane" aria-live="polite"></aside>
+  </div>
+</main>
+
+<footer>
+  <span>Michèle du Toit</span>
+  <span>Johannesburg, South Africa</span>
+</footer>
+
+<script>
+(function () {
+  var items = Array.prototype.slice.call(document.querySelectorAll('.project'));
+  var pane = document.getElementById('pane');
+  var wide = window.matchMedia('(min-width: 960px)');
+  var current = null;
+
+  function select(item) {
+    current = item;
+    items.forEach(function (el) {
+      var on = el === item;
+      el.classList.toggle('is-selected', on);
+      el.querySelector('.project-btn').setAttribute('aria-expanded', on ? 'true' : 'false');
+    });
+    pane.innerHTML = '';
+    if (!item) return;
+    var year = document.createElement('p');
+    year.className = 'pane-year';
+    year.textContent = item.querySelector('.year').textContent;
+    var title = document.createElement('h2');
+    title.textContent = item.querySelector('.title').textContent;
+    var body = document.createElement('div');
+    body.className = 'detail-body';
+    body.innerHTML = item.querySelector('.detail-body').innerHTML;
+    pane.appendChild(year);
+    pane.appendChild(title);
+    pane.appendChild(body);
+  }
+
+  function setHash(item) {
+    try { history.replaceState(null, '', item ? '#' + item.id : location.pathname); } catch (e) {}
+  }
+
+  items.forEach(function (item) {
+    item.querySelector('.project-btn').addEventListener('click', function () {
+      // On narrow screens a second click collapses the item; on wide screens one is always shown.
+      var next = (!wide.matches && item === current) ? null : item;
+      select(next);
+      setHash(next);
+    });
+  });
+
+  var fromHash = items.filter(function (el) { return '#' + el.id === location.hash; })[0];
+  if (fromHash) select(fromHash);
+  else if (wide.matches) select(items[0]);
+
+  var onChange = function () { if (wide.matches && !current) select(items[0]); };
+  if (wide.addEventListener) wide.addEventListener('change', onChange);
+  else wide.addListener(onChange);
+})();
+</script>
+</body>
+</html>
