@@ -218,6 +218,7 @@ footer{
   .logo{font-size:36px;}
   nav{gap:22px;font-size:15px;}
   main.top{padding-top:56px;}
+  .statement{margin-left:0;}
   .projects-layout{margin-left:0;}
   .project-btn{grid-template-columns:1fr;row-gap:6px;}
   .project-btn .year{padding-top:0;}
